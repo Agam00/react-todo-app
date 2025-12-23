@@ -35,9 +35,15 @@ function App() {
     setTaskList(taskList.filter((item) => item.id !== id));
   };
 
+  const onUpdate = (id, text) => {
+    setTaskList(
+      taskList.map((item) => (item.id === id ? { ...item, task: text } : item))
+    );
+  };
+
   const totalTasks = taskList.length;
   const completedTasks = taskList.filter((item) => item.isDone).length;
-  const pendingTasks=totalTasks-completedTasks
+  const pendingTasks = totalTasks - completedTasks;
 
   return (
     <>
@@ -57,7 +63,12 @@ function App() {
           <ListForm onAdd={onAdd} />
 
           <div className="mt-4">
-            <ListDisplay tasks={taskList} onRemove={onRemove} onMark={onMark} />
+            <ListDisplay
+              tasks={taskList}
+              onRemove={onRemove}
+              onMark={onMark}
+              onUpdate={onUpdate}
+            />
           </div>
         </section>
       </div>

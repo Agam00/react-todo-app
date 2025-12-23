@@ -1,6 +1,18 @@
-import { MdDelete } from "react-icons/md";
+import { useState } from "react";
+import { MdDelete, MdEdit,MdCheck } from "react-icons/md";
 
-function ListDisplay({ tasks, onMark, onRemove }) {
+function ListDisplay({ tasks, onMark, onRemove, onUpdate }) {
+  const [editId, setEditId] = useState(null);
+  const [editText, setEditText] = useState("");
+
+  const handleEdit = (item) => {
+    setEditId(item.id);
+    setEditText(item.task);
+  };
+  const handleSave = (id) => {
+    onUpdate(id, editText);
+    setEditId(null);
+  };
   return (
     <div className="space-y-2">
       {tasks.map((item) => (
@@ -12,13 +24,34 @@ function ListDisplay({ tasks, onMark, onRemove }) {
             className="w-4 h-4 accent-green-600"
           />
 
-          <span
-            className={
-              item.isDone ? "text-gray-400 line-through" : "text-white"
-            }
-          >
-            {item.task}
-          </span>
+          {editId === item.id  ? (
+            <input
+              className="px-2 py-1 rounded bg-gray-800 text-white"
+              value={editText}
+              onChange={(e) => setEditText(e.target.value)}
+            />
+          ) : (
+            <span
+              className={
+                item.isDone ? "text-gray-400 line-through" : "text-white"
+              }
+            >
+              {item.task}
+            </span>
+          )}
+
+          {editId === item.id  ? (
+            <button
+              onClick={() => handleSave(item.id)}
+              className="text-green-500"
+            >
+              <MdCheck />
+            </button>
+          ) : (
+            <button onClick={() => handleEdit(item)} className="text-blue-500">
+              <MdEdit />
+            </button>
+          )}
 
           <button
             onClick={() => onRemove(item.id)}
