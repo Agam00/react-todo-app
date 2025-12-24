@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { MdDelete, MdEdit,MdCheck } from "react-icons/md";
+import { MdDelete, MdEdit, MdCheck } from "react-icons/md";
 
 function ListDisplay({ tasks, onMark, onRemove, onUpdate }) {
   const [editId, setEditId] = useState(null);
@@ -24,7 +24,7 @@ function ListDisplay({ tasks, onMark, onRemove, onUpdate }) {
             className="w-4 h-4 accent-green-600"
           />
 
-          {editId === item.id  ? (
+          {editId === item.id ? (
             <input
               className="px-2 py-1 rounded bg-gray-800 text-white"
               value={editText}
@@ -40,7 +40,7 @@ function ListDisplay({ tasks, onMark, onRemove, onUpdate }) {
             </span>
           )}
 
-          {editId === item.id  ? (
+          {editId === item.id ? (
             <button
               onClick={() => handleSave(item.id)}
               className="text-green-500"
@@ -48,9 +48,14 @@ function ListDisplay({ tasks, onMark, onRemove, onUpdate }) {
               <MdCheck />
             </button>
           ) : (
-            <button onClick={() => handleEdit(item)} className="text-blue-500">
-              <MdEdit />
-            </button>
+            !item.isDone && (
+              <button
+                onClick={() => handleEdit(item)}
+                className="text-blue-500"
+              >
+                <MdEdit />
+              </button>
+            )
           )}
 
           <button
